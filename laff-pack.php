@@ -49,21 +49,15 @@ class LAFFPack {
 				$this->container_dimensions = $this->_calc_container_dimensions();
 			}
 			else {
-				// Calculate container size
-				if(!is_array($container)) {
-					$this->container_dimensions = $this->_calc_container_dimensions();
+				if(!array_key_exists('length', $container) ||
+					!array_key_exists('width', $container)) {
+						throw new InvalidArgumentException("Function _pack only accepts array (length, width, height) as argument for $container");
 				}
-				else {
-					if(!array_key_exists('length', $container) ||
-						!array_key_exists('width', $container)) {
-							throw new InvalidArgumentException("Function _pack only accepts array (length, width, height) as argument for $container");
-					}
+			
+				$this->container_dimensions['length'] = $container['length'];
+				$this->container_dimensions['width'] = $container['width'];
 				
-					$this->container_dimensions['length'] = $container['length'];
-					$this->container_dimensions['width'] = $container['width'];
-					
-					// Note: do NOT set height, it will be calculated on-the-go
-				}
+				// Note: do NOT set height, it will be calculated on-the-go
 			}
 		}
 	}
